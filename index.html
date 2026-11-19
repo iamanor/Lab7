@@ -4,4 +4,47 @@
         <title>Lab 7</title>
          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 <script src="citypop.js"></script>
+function processData(data) {
+  // First, initialize the variables to hold the timestamps and min/max population values
+  var timestamps = [];  // square brackets to define an array of data
+                        // because there are multiple timestamps
+  var min = Infinity;   // for the min, begin with the largest possible value - infinity
+  var max = -Infinity;  // for the max, begin with the smallest possible value - negative infinity
+
+  // Go through each row/feature of the data table
+  // Note data is the variable name in the function definition - processData(data)
+  for (var feature in data.features) {
+      var properties = data.features[feature].properties;
+
+      // At each row, go through the columns/attributes to get the values
+      for (var attribute in properties) {
+          if ( attribute != 'id' &&
+               attribute != 'name' &&
+               attribute != 'latitude' &&
+               attribute != 'longitude' )   // != means NOT EQUAL TO
+                                            // These columns are NOT timestamps, so they are skipped
+                                            // Modify this part when mapping your own data
+          {
+              if ( timestamps.indexOf(attribute) === -1 ) { // indexOf() searches an array for a value and returns its position (or -1 if not found)
+                                                            // here, the new timestamp is only added when it is not already in the array
+                                                            // triple equals === compares both type and value
+
+                  timestamps.push(attribute);  // The JS push() method adds new items to the end of an array
+              }
+              var value = Number(properties[attribute]); // Number() makes sure the value is a number, not text
+              if (value < min) {
+                  min = value; // record/update the current smaller values as the min
+              }
+              if (value > max) {
+                  max = value; // record/update the current larger values as the max
+              }
+          }
+      }
+  }
+  return { // the function finally returns the timestamps array, the min and max of population data
+      timestamps : timestamps,
+      min : min,
+      max : max
+  }
+}
 <style>
