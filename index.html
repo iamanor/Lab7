@@ -2,7 +2,13 @@
 <html>
     <head>
         <title>Lab 7</title>
-         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+        <style>
+            {
+            height:600px;
+                width:100%;
+            }
+        </style>
               // Run the functions defined below, in this order
 var info = processData(data);   // data is the variable defined in citypop.js
 createPropSymbols(info.timestamps, data);
@@ -51,14 +57,20 @@ function processData(data) {
   }
 }
 </script>
-
+    </head>
+<body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+var map = L.map('map').setView([39.8283, -98.5795], 4);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+</script>
 var cities;   // the city circles; more than one function uses them, so we define the variable here
-
 // The function to draw the proportional symbols
 function createPropSymbols(timestamps, data) {
-
   cities = L.geoJson(data, {
-
       // By default, Leaflet draws geojson points as simple markers
       // To alter this, the pointToLayer function needs to be used
       pointToLayer: function(feature, latlng) {
@@ -78,7 +90,7 @@ function createPropSymbols(timestamps, data) {
                 }
         });
       }
-  }).addTo(map);
+  })cities.addTo(map);
 
   updatePropSymbols(timestamps[0]); // this function is defined below
                                     // When loaded, the map will first show proportional symbols with the first timestamp's data
