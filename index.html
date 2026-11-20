@@ -2,17 +2,39 @@
 <html>
     <head>
         <title>Lab 7</title>
-         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-        <style>
-            {
-            height:600px;
-                width:100%;
-            }
+
+         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+           crossorigin=""/>
+
+         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+           crossorigin=""></script>
+        
+        <script src="citypop.js"></script>
+        
+        <style type="text/css">
+          html, body { margin: 0; padding: 0; height: 100%; }
+          #map { min-height: 100%; }
         </style>
-              // Run the functions defined below, in this order
-var info = processData(data);   // data is the variable defined in citypop.js
-createPropSymbols(info.timestamps, data);
-<script src="citypop.js">
+
+    </head>
+
+    <body>
+        <div id="map"></div>
+
+        <script type="text/javascript">
+
+          var map = L.map('map', {
+              center: [39.23, -97.47],
+              zoom: 4
+          });
+
+         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+           attribution: 'Tiles © Esri — Esri, DeLorme, NAVTEQ',
+           maxZoom: 11,
+           minZoom: 4
+         }).addTo(map);
 function processData(data) {
   // First, initialize the variables to hold the timestamps and min/max population values
   var timestamps = [];  // square brackets to define an array of data
